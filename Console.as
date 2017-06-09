@@ -227,15 +227,14 @@ package priv.yakiler.hf.uitl.chrome
 			var params:String = "";
 			for (var i:int = 0; i < args.length; i++) 
 			{
-				if( (args[i]+'').search(",") > -1 )
-				{
-					args[i] = (args[i]+'').replace("'","\\'");
-					args[i] = '"' + args[i] + '"';
-				}
 				var str:String = args[i].toString();
 				if( str.search( /\[object/ ) > -1 )
 				{
 					args[i] += '.toString():' + JSON.stringify(args[i]) + ':end';
+				}
+				if( args[i] is String )
+				{
+					args[i] = apostropheEscaped(args[i]);
 				}
 				params += (i == 0 ? "'" : ",'") + args[i] + "'";	
 			}
@@ -247,7 +246,7 @@ package priv.yakiler.hf.uitl.chrome
 		 * */
 		public static function apostropheEscaped( origin:String ):String
 		{
-			return origin.replace("'","\\'");
+			return origin.replace(/\'/g,"\\'").replace(/\"/g,"\\'");
 		}
 		
 		/**
